@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#2d5a3d">
+    <meta name="description" content="Toorak Bowling Club Member Portal - Est. 1913">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Toorak Bowls Club</title>
+    <link rel="manifest" id="manifest-placeholder">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700&family=Lato:wght@300;400;600;700&display=swap');
+        
+        :root {
+            --green-dark: #2d5a3d;
+            --green-primary: #3d7350;
+            --green-light: #5a9470;
+            --green-subtle: #e8f3ed;
+            --cream: #faf8f3;
+            --cream-dark: #f0ede5;
+            --gold: #d4a843;
+            --gold-light: #e8c976;
+            --text-dark: #1a1a1a;
+            --text-mid: #4a4a4a;
+            --text-light: #757575;
+            --white: #ffffff;
+            --shadow: rgba(45, 90, 61, 0.08);
+            --shadow-strong: rgba(45, 90, 61, 0.15);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            font-family: 'Lato', sans-serif;
+            background: var(--cream);
+            color: var(--text-dark);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            line-height: 1.6;
+        }
+        
+        .app-container {
+            max-width: 480px;
+            margin: 0 auto;
+            min-height: 100vh;
+            background: var(--cream);
+            box-shadow: 0 0 80px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Heritage-inspired Header */
+        header {
+            background: linear-gradient(135deg, var(--green-dark) 0%, var(--green-primary) 100%);
+            color: white;
+            padding: 20px 20px 16px;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 3px solid var(--gold);
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -30%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+        
+        .header-content {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .club-logo {
+            width: 56px;
+            height: 56px;
+            background: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid var(--gold);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+            flex-shrink: 0;
+            position: relative;
+        }
+        
+        .logo-inner {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--green-dark) 0%, var(--green-primary) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--white);
+        }
+        
+        .logo-text {
+            font-family: 'EB Garamond', serif;
+            font-weight: 700;
+            font-size: 28px;
+            color: var(--gold);
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+        
+        .header-text {
+            flex: 1;
+        }
+        
+        h1 {
+            font-family: 'EB Garamond', serif;
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 2px;
+            letter-spacing: 0.3px;
+        }
+        
+        .header-subtitle {
+            font-size: 11px;
+            opacity: 0.9;
+            font-weight: 400;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+        
+        .header-address {
+            font-size: 11px;
+            opacity: 0.85;
+            font-style: italic;
+            margin-top: 2px;
+        }
+        
+        /* Navigation */
+        nav {
+            background: var(--white);
+            display: flex;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--cream-dark);
+            box-shadow: 0 2px 8px var(--shadow);
+        }
+        
+        .nav-btn {
+            flex: 1;
+            padding: 14px 8px;
+            border: none;
+            background: transparent;
+            font-family: 'Lato', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-mid);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+        
+        .nav-btn.active {
+            color: var(--green-primary);
+        }
+        
+        .nav-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gold);
+        }
+        
+        /* Main */
+        main {
+            flex: 1;
+            overflow-y: auto;
+            padding-bottom: 20px;
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Cards */
+        .card {
+            background: var(--white);
+            border-radius: 10px;
+            margin: 12px 16px;
+            padding: 16px;
+            box-shadow: 0 2px 8px var(--shadow);
+            border: 1px solid rgba(0,0,0,0.04);
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--green-subtle);
+        }
+        
+        .card-title {
+            font-family: 'EB Garamond', serif;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--green-dark);
+        }
+        
+        .badge {
+            background: var(--green-subtle);
+            color: var(--green-primary);
+            padding: 4px 10px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .badge.social {
+            background: #fff3e0;
+            color: #e65100;
+        }
+        
+        .badge.heritage {
+            background: linear-gradient(135deg, var(--gold-light), var(--gold));
+            color: var(--green-dark);
+        }
+        
+        /* Quick Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 12px 16px;
+        }
+        
+        .stat-card {
+            background: var(--white);
+            padding: 14px;
+            border-radius: 8px;
+            border: 2px solid var(--green-subtle);
+            text-align: center;
+        }
+        
+        .stat-label {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 4px;
+        }
+        
+        .stat-value {
+            font-family: 'EB Garamond', serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--green-primary);
+            line-height: 1;
+        }
+        
+        /* Info Banners */
+        .info-banner {
+            background: linear-gradient(135deg, #fff8e1 0%, #fffbf0 100%);
+            border-left: 4px solid var(--gold);
+            padding: 12px 14px;
+            margin: 12px 16px;
+            border-radius: 6px;
+            font-size: 12px;
+            color: var(--text-mid);
+            line-height: 1.6;
+        }
+        
+        .info-banner.bowlslink {
+            background: linear-gradient(135deg, var(--green-subtle) 0%, var(--white) 100%);
+            border-left-color: var(--green-primary);
+        }
+        
+        .info-banner strong {
+            color: var(--text-dark);
+            font-weight: 700;
+        }
+        
+        .info-banner a {
+            color: var(--green-primary);
+            font-weight: 600;
+            text-decoration: none;
+            border-bottom: 1px solid var(--green-primary);
+        }
+        
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin: 0 16px 12px;
+        }
+        
+        .quick-action {
+            background: var(--white);
+            border: 2px solid var(--green-primary);
+            border-radius: 8px;
+            padding: 16px 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .quick-action:active {
+            transform: scale(0.97);
+            background: var(--green-subtle);
+        }
+        
+        .action-icon {
+            font-size: 28px;
+            margin-bottom: 6px;
+        }
+        
+        .action-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--green-primary);
+            letter-spacing: 0.3px;
+        }
+        
+        /* Position & Availability */
+        .position-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        .position-btn {
+            padding: 12px;
+            border: 2px solid var(--cream-dark);
+            background: var(--white);
+            border-radius: 8px;
+            font-family: 'Lato', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: var(--text-mid);
+        }
+        
+        .position-btn.selected {
+            border-color: var(--green-primary);
+            background: var(--green-subtle);
+            color: var(--green-primary);
+        }
+        
+        .availability-toggle {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        .toggle-btn {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid var(--cream-dark);
+            background: var(--white);
+            border-radius: 8px;
+            font-family: 'Lato', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .toggle-btn.available {
+            border-color: var(--green-primary);
+            background: var(--green-primary);
+            color: white;
+        }
+        
+        .toggle-btn.unavailable {
+            border-color: #c44;
+            background: #c44;
+            color: white;
+        }
+        
+        /* Booking Grid */
+        .booking-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        .booking-slot {
+            padding: 10px 8px;
+            border: 2px solid var(--cream-dark);
+            background: var(--white);
+            border-radius: 6px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .booking-slot.available:hover {
+            border-color: var(--green-light);
+            background: var(--green-subtle);
+        }
+        
+        .booking-slot.booked {
+            border-color: var(--gold);
+            background: var(--gold-light);
+            opacity: 0.7;
+            cursor: default;
+        }
+        
+        .booking-slot.selected {
+            border-color: var(--green-primary);
+            background: var(--green-primary);
+            color: white;
+        }
+        
+        .slot-time {
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+        
+        .slot-rink {
+            font-size: 10px;
+            opacity: 0.8;
+        }
+        
+        /* Events */
+        .event-card {
+            background: var(--white);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 10px;
+            border: 1px solid var(--cream-dark);
+            display: flex;
+            gap: 12px;
+        }
+        
+        .event-date {
+            background: linear-gradient(135deg, var(--green-dark), var(--green-primary));
+            color: white;
+            border-radius: 6px;
+            padding: 10px;
+            text-align: center;
+            min-width: 55px;
+            flex-shrink: 0;
+        }
+        
+        .event-day {
+            font-family: 'EB Garamond', serif;
+            font-size: 22px;
+            font-weight: 700;
+            line-height: 1;
+        }
+        
+        .event-month {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 3px;
+            opacity: 0.9;
+        }
+        
+        .event-details {
+            flex: 1;
+        }
+        
+        .event-title {
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 3px;
+            color: var(--text-dark);
+        }
+        
+        .event-time {
+            font-size: 12px;
+            color: var(--text-light);
+            margin-bottom: 6px;
+        }
+        
+        .event-rsvp {
+            display: inline-block;
+            padding: 5px 12px;
+            background: var(--green-subtle);
+            color: var(--green-primary);
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .event-rsvp.attending {
+            background: var(--green-primary);
+            color: white;
+        }
+        
+        /* List Items */
+        .list-item {
+            padding: 12px 0;
+            border-bottom: 1px solid var(--cream-dark);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .list-item:last-child {
+            border-bottom: none;
+        }
+        
+        .list-item-info {
+            flex: 1;
+        }
+        
+        .list-item-title {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text-dark);
+            margin-bottom: 2px;
+        }
+        
+        .list-item-subtitle {
+            font-size: 12px;
+            color: var(--text-light);
+        }
+        
+        .list-item-action {
+            padding: 6px 14px;
+            background: var(--green-subtle);
+            color: var(--green-primary);
+            border: none;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        
+        /* Section Titles */
+        .section-title {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: var(--text-light);
+            padding: 16px 16px 8px;
+            margin-top: 8px;
+        }
+        
+        /* Function Room Enquiry Form */
+        .form-group {
+            margin-bottom: 12px;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 6px;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 2px solid var(--cream-dark);
+            border-radius: 6px;
+            font-family: 'Lato', sans-serif;
+            font-size: 13px;
+            transition: border-color 0.2s ease;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--green-primary);
+        }
+        
+        .form-textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 2px solid var(--cream-dark);
+            border-radius: 6px;
+            font-family: 'Lato', sans-serif;
+            font-size: 13px;
+            min-height: 80px;
+            resize: vertical;
+        }
+        
+        .form-submit {
+            width: 100%;
+            padding: 14px;
+            background: var(--green-primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Lato', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .form-submit:active {
+            transform: scale(0.98);
+            background: var(--green-dark);
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--green-dark);
+            color: white;
+            padding: 20px 20px;
+            text-align: center;
+            margin-top: auto;
+            border-top: 3px solid var(--gold);
+        }
+        
+        footer p {
+            font-size: 11px;
+            opacity: 0.9;
+            line-height: 1.8;
+        }
+        
+        .footer-heritage {
+            font-family: 'EB Garamond', serif;
+            font-size: 13px;
+            font-style: italic;
+            margin-top: 8px;
+            opacity: 0.85;
+        }
+        
+        /* Install Prompt */
+        .install-prompt {
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+            color: var(--green-dark);
+            padding: 12px 16px;
+            margin: 12px 16px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 8px rgba(212, 168, 67, 0.3);
+            font-size: 13px;
+            font-weight: 600;
+        }
+        
+        .install-prompt.hidden {
+            display: none;
+        }
+        
+        .install-btn {
+            padding: 6px 14px;
+            background: var(--green-dark);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 12px;
+            cursor: pointer;
+        }
+        
+        /* Match Details */
+        .match-detail {
+            padding: 10px 0;
+        }
+        
+        .match-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+        
+        .match-date {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--green-primary);
+        }
+        
+        .match-time {
+            font-size: 11px;
+            color: var(--text-light);
+        }
+        
+        .match-teams {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .match-venue {
+            font-size: 12px;
+            color: var(--text-light);
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <div class="header-content">
+                <div class="club-logo">
+                    <div class="logo-inner">
+                        <div class="logo-text">T</div>
+                    </div>
+                </div>
+                <div class="header-text">
+                    <h1>Toorak Bowls Club</h1>
+                    <div class="header-subtitle">Est. 1913</div>
+                    <div class="header-address">9 Mandeville Cres, Toorak</div>
+                </div>
+            </div>
+        </header>
+        
+        <div class="install-prompt hidden" id="installPrompt">
+            <div>📱 Install app for quick access</div>
+            <button class="install-btn" id="installBtn">Install</button>
+        </div>
+        
+        <nav>
+            <button class="nav-btn active" data-tab="home">Home</button>
+            <button class="nav-btn" data-tab="availability">Play</button>
+            <button class="nav-btn" data-tab="social">Social</button>
+            <button class="nav-btn" data-tab="functions">Hire</button>
+        </nav>
+        
+        <main>
+            <!-- HOME TAB -->
+            <div class="tab-content active" id="home">
+                <div class="info-banner bowlslink">
+                    <strong>🔗 BowlsLink Portal:</strong> Check official draws and results at <a href="https://www.bowlslink.com.au" target="_blank">bowlslink.com.au</a>. This app is for bookings, availability, and social coordination.
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">Next Match</div>
+                        <div class="stat-value">31 May</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Bookings</div>
+                        <div class="stat-value">3</div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Next Pennant Match</h3>
+                        <span class="badge">A1 Grade</span>
+                    </div>
+                    <div class="match-detail">
+                        <div class="match-header">
+                            <div class="match-date">Saturday, 31 May 2026</div>
+                            <div class="match-time">1:00 PM</div>
+                        </div>
+                        <div class="match-teams">Toorak vs South Yarra</div>
+                        <div class="match-venue">📍 Away • South Yarra BC</div>
+                    </div>
+                    <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--cream-dark);">
+                        <div style="font-size: 12px; color: var(--text-mid); margin-bottom: 6px;">
+                            <strong>Your Position:</strong> Third (Rink 2)
+                        </div>
+                        <div style="font-size: 12px; color: var(--text-light); line-height: 1.5;">
+                            Skip: Graham Peters • Second: Mary Wilson • Lead: John Davis
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section-title">Quick Actions</div>
+                
+                <div class="quick-actions">
+                    <div class="quick-action" onclick="switchTab('availability')">
+                        <div class="action-icon">✓</div>
+                        <div class="action-label">Set Availability</div>
+                    </div>
+                    <div class="quick-action" onclick="switchTab('availability'); setTimeout(() => document.getElementById('bookings-link').click(), 100)">
+                        <div class="action-icon">📅</div>
+                        <div class="action-label">Book a Rink</div>
+                    </div>
+                    <div class="quick-action" onclick="switchTab('social')">
+                        <div class="action-icon">🎉</div>
+                        <div class="action-label">Social Events</div>
+                    </div>
+                    <div class="quick-action" onclick="switchTab('functions')">
+                        <div class="action-icon">🏛️</div>
+                        <div class="action-label">Function Room</div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Latest News</h3>
+                    </div>
+                    <div class="list-item" style="padding-top: 0;">
+                        <div class="list-item-info">
+                            <div class="list-item-title">🏆 A1 Team Victorious!</div>
+                            <div class="list-item-subtitle">82-68 win vs Kooyong • 2 hours ago</div>
+                        </div>
+                    </div>
+                    <div class="list-item">
+                        <div class="list-item-info">
+                            <div class="list-item-title">🍔 Sunday BBQ This Week</div>
+                            <div class="list-item-subtitle">All members welcome • RSVP required</div>
+                        </div>
+                    </div>
+                    <div class="list-item">
+                        <div class="list-item-info">
+                            <div class="list-item-title">📋 New Members Welcome</div>
+                            <div class="list-item-subtitle">Patricia Thompson & David Chen</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Club Links</h3>
+                    </div>
+                    <div class="list-item" style="padding-top: 0;">
+                        <div class="list-item-info">
+                            <div class="list-item-title">BowlsLink Portal</div>
+                            <div class="list-item-subtitle">Official draws & results</div>
+                        </div>
+                        <button class="list-item-action" onclick="window.open('https://www.bowlslink.com.au', '_blank')">View →</button>
+                    </div>
+                    <div class="list-item">
+                        <div class="list-item-info">
+                            <div class="list-item-title">Bowls Victoria</div>
+                            <div class="list-item-subtitle">Fixtures & ladders</div>
+                        </div>
+                        <button class="list-item-action" onclick="window.open('https://www.bowlsvic.org.au', '_blank')">View →</button>
+                    </div>
+                    <div class="list-item">
+                        <div class="list-item-info">
+                            <div class="list-item-title">Club Website</div>
+                            <div class="list-item-subtitle">toorakbowlingclub.com.au</div>
+                        </div>
+                        <button class="list-item-action" onclick="window.open('https://www.toorakbowlingclub.com.au', '_blank')">View →</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- AVAILABILITY & BOOKINGS TAB -->
+            <div class="tab-content" id="availability">
+                <div class="info-banner">
+                    Update your availability and position preferences for selectors. Book practice rinks below.
+                </div>
+                
+                <div class="section-title">Pennant Availability</div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Saturday, 31 May</h3>
+                        <span class="badge">Pennant A1</span>
+                    </div>
+                    <div style="font-size: 13px; color: var(--text-mid); margin-bottom: 10px;">
+                        vs South Yarra • Away • 1:00 PM
+                    </div>
+                    <div class="availability-toggle">
+                        <button class="toggle-btn available" onclick="setAvailability(this, '31-may', 'available')">✓ Available</button>
+                        <button class="toggle-btn" onclick="setAvailability(this, '31-may', 'unavailable')">✗ Not Available</button>
+                    </div>
+                    <div style="font-size: 11px; font-weight: 700; color: var(--text-mid); margin-top: 12px; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.8px;">
+                        Preferred Position
+                    </div>
+                    <div class="position-grid">
+                        <button class="position-btn" onclick="selectPosition(this, '31-may', 'skip')">Skip</button>
+                        <button class="position-btn selected" onclick="selectPosition(this, '31-may', 'third')">Third</button>
+                        <button class="position-btn" onclick="selectPosition(this, '31-may', 'second')">Second</button>
+                        <button class="position-btn" onclick="selectPosition(this, '31-may', 'lead')">Lead</button>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Saturday, 7 June</h3>
+                        <span class="badge">Pennant A1</span>
+                    </div>
+                    <div style="font-size: 13px; color: var(--text-mid); margin-bottom: 10px;">
+                        vs Brighton • Home • 1:00 PM
+                    </div>
+                    <div class="availability-toggle">
+                        <button class="toggle-btn" onclick="setAvailability(this, '7-jun', 'available')">✓ Available</button>
+                        <button class="toggle-btn" onclick="setAvailability(this, '7-jun', 'unavailable')">✗ Not Available</button>
+                    </div>
+                    <div style="font-size: 11px; font-weight: 700; color: var(--text-mid); margin-top: 12px; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.8px;">
+                        Preferred Position
+                    </div>
+                    <div class="position-grid">
+                        <button class="position-btn" onclick="selectPosition(this, '7-jun', 'skip')">Skip</button>
+                        <button class="position-btn" onclick="selectPosition(this, '7-jun', 'third')">Third</button>
+                        <button class="position-btn" onclick="selectPosition(this, '7-jun', 'second')">Second</button>
+                        <button class="position-btn" onclick="selectPosition(this, '7-jun', 'lead')">Lead</button>
+                    </div>
+                </div>
+                
+                <div class="section-title" id="bookings-link">Practice Rink Bookings</div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Tuesday, 27 May</h3>
+                    </div>
+                    <div class="booking-grid">
+                        <div class="booking-slot available" onclick="bookSlot(this, 'tue-9am')">
+                            <div class="slot-time">9:00 AM</div>
+                            <div class="slot-rink">Rink 1-2</div>
+                        </div>
+                        <div class="booking-slot booked">
+                            <div class="slot-time">11:00 AM</div>
+                            <div class="slot-rink">Booked</div>
+                        </div>
+                        <div class="booking-slot available" onclick="bookSlot(this, 'tue-2pm')">
+                            <div class="slot-time">2:00 PM</div>
+                            <div class="slot-rink">Rink 3</div>
+                        </div>
+                        <div class="booking-slot available" onclick="bookSlot(this, 'tue-4pm')">
+                            <div class="slot-time">4:00 PM</div>
+                            <div class="slot-rink">All Rinks</div>
+                        </div>
+                        <div class="booking-slot booked">
+                            <div class="slot-time">6:00 PM</div>
+                            <div class="slot-rink">Social</div>
+                        </div>
+                        <div class="booking-slot available" onclick="bookSlot(this, 'tue-8pm')">
+                            <div class="slot-time">8:00 PM</div>
+                            <div class="slot-rink">Rink 2-3</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Your Bookings</h3>
+                    </div>
+                    <div class="list-item" style="padding-top: 0;">
+                        <div class="list-item-info">
+                            <div class="list-item-title">Tue 27 May • 11:00 AM</div>
+                            <div class="list-item-subtitle">Rink 2 • 90 minutes</div>
+                        </div>
+                        <button class="list-item-action" onclick="cancelBooking('tue-11am')">Cancel</button>
+                    </div>
+                    <div class="list-item">
+                        <div class="list-item-info">
+                            <div class="list-item-title">Thu 29 May • 4:00 PM</div>
+                            <div class="list-item-subtitle">Rink 1 • 90 mins</div>
+                        </div>
+                        <button class="list-item-action" onclick="cancelBooking('thu-4pm')">Cancel</button>
+                    </div>
+                    <div class="list-item">
+                        <div class="list-item-info">
+                            <div class="list-item-title">Fri 30 May • 9:00 AM</div>
+                            <div class="list-item-subtitle">Rink 3 • Coach: Graham</div>
+                        </div>
+                        <button class="list-item-action" onclick="cancelBooking('fri-9am')">Cancel</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- SOCIAL TAB -->
+            <div class="tab-content" id="social">
+                <div class="section-title">Upcoming Events</div>
+                
+                <div style="margin: 0 16px;">
+                    <div class="event-card">
+                        <div class="event-date">
+                            <div class="event-day">25</div>
+                            <div class="event-month">May</div>
+                        </div>
+                        <div class="event-details">
+                            <div class="event-title">🍔 Sunday BBQ</div>
+                            <div class="event-time">12:00 PM - 4:00 PM</div>
+                            <div class="event-rsvp attending" onclick="toggleRSVP(this)">✓ Attending (28)</div>
+                        </div>
+                    </div>
+                    
+                    <div class="event-card">
+                        <div class="event-date">
+                            <div class="event-day">30</div>
+                            <div class="event-month">May</div>
+                        </div>
+                        <div class="event-details">
+                            <div class="event-title">🎳 Friday Night Bowls</div>
+                            <div class="event-time">6:00 PM - 9:00 PM</div>
+                            <div class="event-rsvp" onclick="toggleRSVP(this)">RSVP (16 going)</div>
+                        </div>
+                    </div>
+                    
+                    <div class="event-card">
+                        <div class="event-date">
+                            <div class="event-day">6</div>
+                            <div class="event-month">Jun</div>
+                        </div>
+                        <div class="event-details">
+                            <div class="event-title">👟 Barefoot Bowls</div>
+                            <div class="event-time">5:00 PM - 10:00 PM • BYO</div>
+                            <div class="event-rsvp" onclick="toggleRSVP(this)">RSVP (12 going)</div>
+                        </div>
+                    </div>
+                    
+                    <div class="event-card">
+                        <div class="event-date">
+                            <div class="event-day">8</div>
+                            <div class="event-month">Jun</div>
+                        </div>
+                        <div class="event-details">
+                            <div class="event-title">🎵 Live Music & Bowls</div>
+                            <div class="event-time">2:00 PM - 8:00 PM</div>
+                            <div class="event-rsvp" onclick="toggleRSVP(this)">RSVP (24 going)</div>
+                        </div>
+                    </div>
+                    
+                    <div class="event-card">
+                        <div class="event-date">
+                            <div class="event-day">15</div>
+                            <div class="event-month">Jun</div>
+                        </div>
+                        <div class="event-details">
+                            <div class="event-title">🏆 Club Championship</div>
+                            <div class="event-time">9:00 AM - 5:00 PM</div>
+                            <div class="event-rsvp" onclick="toggleRSVP(this)">RSVP (36 going)</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section-title">Social Bowls Sessions</div>
+                
+                <div class="info-banner">
+                    <strong>Friday Night Bowls:</strong> Every Friday 6-9pm. All skill levels welcome. No booking required, just turn up!
+                </div>
+                
+                <div class="info-banner">
+                    <strong>Barefoot Bowls:</strong> First Saturday of each month. Perfect for friends & family. Book via the Functions tab.
+                </div>
+            </div>
+            
+            <!-- FUNCTIONS TAB -->
+            <div class="tab-content" id="functions">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Function Room Hire</h3>
+                        <span class="badge heritage">Since 1913</span>
+                    </div>
+                    <p style="font-size: 13px; color: var(--text-mid); line-height: 1.6; margin-bottom: 16px;">
+                        Our historic function room accommodates up to 100 guests with bar and kitchen facilities. Perfect for birthdays, corporate events, and private functions.
+                    </p>
+                    <div style="background: var(--green-subtle); padding: 12px; border-radius: 6px; margin-bottom: 16px;">
+                        <div style="font-size: 12px; font-weight: 700; color: var(--green-dark); margin-bottom: 6px;">Available Spaces:</div>
+                        <ul style="font-size: 12px; color: var(--text-mid); margin-left: 20px; line-height: 1.8;">
+                            <li><strong>Main Hall:</strong> Up to 100 people seated</li>
+                            <li><strong>Pool Table Area:</strong> Relaxed environment for 30 people</li>
+                            <li><strong>The Bar:</strong> Licensed bar with full service</li>
+                            <li><strong>Outdoor Green:</strong> Barefoot bowls for groups</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Enquiry Form</h3>
+                    </div>
+                    <form onsubmit="submitEnquiry(event)">
+                        <div class="form-group">
+                            <label class="form-label">Full Name</label>
+                            <input type="text" class="form-input" placeholder="Your name" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-input" placeholder="your@email.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Phone</label>
+                            <input type="tel" class="form-input" placeholder="0400 000 000" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Event Date</label>
+                            <input type="date" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Number of Guests</label>
+                            <input type="number" class="form-input" placeholder="e.g. 50" min="1" max="100" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Additional Details</label>
+                            <textarea class="form-textarea" placeholder="Tell us about your event..."></textarea>
+                        </div>
+                        <button type="submit" class="form-submit">Submit Enquiry</button>
+                    </form>
+                </div>
+                
+                <div class="info-banner">
+                    <strong>💡 Need inspiration?</strong> Visit our gallery on the main website to see photos from past events at <a href="https://www.toorakbowlingclub.com.au" target="_blank">toorakbowlingclub.com.au</a>
+                </div>
+            </div>
+        </main>
+        
+        <footer>
+            <p><strong>Toorak Bowling Club</strong><br>
+            9 Mandeville Cres, Toorak VIC 3142<br>
+            Phone: (03) 9827 4719</p>
+            <p class="footer-heritage">Proudly serving the community since 1913</p>
+        </footer>
+    </div>
+    
+    <script>
+        // Tab Navigation
+        function switchTab(tabName) {
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.tab === tabName) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(tabName).classList.add('active');
+        }
+        
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+        });
+        
+        // Availability Management
+        function setAvailability(button, matchId, status) {
+            const parent = button.parentElement;
+            const buttons = parent.querySelectorAll('.toggle-btn');
+            
+            buttons.forEach(btn => {
+                btn.classList.remove('available', 'unavailable');
+            });
+            
+            button.classList.add(status);
+            localStorage.setItem('availability-' + matchId, status);
+            
+            const originalText = button.textContent;
+            button.textContent = status === 'available' ? '✓ Saved!' : '✗ Saved';
+            setTimeout(() => {
+                button.textContent = originalText;
+            }, 1200);
+        }
+        
+        // Position Selection
+        function selectPosition(button, matchId, position) {
+            const parent = button.parentElement;
+            parent.querySelectorAll('.position-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            button.classList.add('selected');
+            localStorage.setItem('position-' + matchId, position);
+        }
+        
+        // Rink Booking
+        function bookSlot(slot, slotId) {
+            if (slot.classList.contains('booked') || slot.classList.contains('selected')) {
+                return;
+            }
+            
+            if (confirm('Book this practice slot (90 minutes)?')) {
+                slot.classList.add('selected');
+                localStorage.setItem('booking-' + slotId, 'true');
+                alert('Rink booked! Check "Your Bookings" section.');
+            }
+        }
+        
+        function cancelBooking(bookingId) {
+            if (confirm('Cancel this booking?')) {
+                localStorage.removeItem('booking-' + bookingId);
+                alert('Booking cancelled successfully.');
+            }
+        }
+        
+        // RSVP Toggle
+        function toggleRSVP(btn) {
+            btn.classList.toggle('attending');
+            const match = btn.textContent.match(/\d+/);
+            if (btn.classList.contains('attending')) {
+                const count = match ? parseInt(match[0]) + 1 : 1;
+                btn.textContent = `✓ Attending (${count})`;
+            } else {
+                const count = match ? parseInt(match[0]) - 1 : 0;
+                btn.textContent = `RSVP (${count} going)`;
+            }
+        }
+        
+        // Function Enquiry
+        function submitEnquiry(event) {
+            event.preventDefault();
+            alert('Thank you! Your enquiry has been received. We\'ll be in touch within 24 hours.');
+            event.target.reset();
+        }
+        
+        // Load Saved Data
+        window.addEventListener('load', () => {
+            ['31-may', '7-jun'].forEach(matchId => {
+                const saved = localStorage.getItem('availability-' + matchId);
+                if (saved) {
+                    const button = document.querySelector(`button[onclick*="${matchId}"][onclick*="${saved}"]`);
+                    if (button) button.classList.add(saved);
+                }
+                
+                const position = localStorage.getItem('position-' + matchId);
+                if (position) {
+                    const posBtn = document.querySelector(`button[onclick*="${matchId}"][onclick*="${position}"]`);
+                    if (posBtn) posBtn.classList.add('selected');
+                }
+            });
+        });
+        
+        // PWA Installation
+        let deferredPrompt;
+        const installPrompt = document.getElementById('installPrompt');
+        const installBtn = document.getElementById('installBtn');
+        
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installPrompt.classList.remove('hidden');
+        });
+        
+        installBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                deferredPrompt = null;
+                installPrompt.classList.add('hidden');
+            }
+        });
+        
+        // Manifest
+        const manifestData = {
+            name: "Toorak Bowling Club",
+            short_name: "Toorak Bowls",
+            description: "Member portal for Toorak Bowling Club - Est. 1913",
+            start_url: ".",
+            display: "standalone",
+            background_color: "#faf8f3",
+            theme_color: "#2d5a3d",
+            icons: [
+                {
+                    src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='bg' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' style='stop-color:%232d5a3d'/%3E%3Cstop offset='1' style='stop-color:%233d7350'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='256' cy='256' r='256' fill='url(%23bg)'/%3E%3Ccircle cx='256' cy='256' r='220' fill='none' stroke='%23d4a843' stroke-width='8'/%3E%3Ctext x='256' y='340' font-family='Georgia,serif' font-size='240' font-weight='700' fill='%23d4a843' text-anchor='middle'%3ET%3C/text%3E%3Ctext x='256' y='420' font-family='Georgia,serif' font-size='40' fill='%23d4a843' text-anchor='middle' opacity='0.8'%3E1913%3C/text%3E%3C/svg%3E",
+                    sizes: "512x512",
+                    type: "image/svg+xml"
+                }
+            ]
+        };
+        
+        const manifestBlob = new Blob([JSON.stringify(manifestData)], {type: 'application/json'});
+        const manifestURL = URL.createObjectURL(manifestBlob);
+        document.getElementById('manifest-placeholder').setAttribute('href', manifestURL);
+        
+        // Service Worker
+        if ('serviceWorker' in navigator) {
+            const swCode = `
+                self.addEventListener('install', (e) => {
+                    e.waitUntil(self.skipWaiting());
+                });
+                
+                self.addEventListener('activate', (e) => {
+                    e.waitUntil(self.clients.claim());
+                });
+                
+                self.addEventListener('fetch', (e) => {
+                    e.respondWith(fetch(e.request));
+                });
+            `;
+            
+            const swBlob = new Blob([swCode], {type: 'text/javascript'});
+            const swURL = URL.createObjectURL(swBlob);
+            navigator.serviceWorker.register(swURL);
+        }
+    </script>
+</body>
+</html>
